@@ -1,0 +1,475 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "winres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (Australia) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENA)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_AUS
+#pragma code_page(1252)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MENU MENU
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&Open...",                    ID_FILE_OPEN
+        MENUITEM "&Close",                      ID_FILE_CLOSE
+        MENUITEM "&Save",                       ID_FILE_SAVE
+        MENUITEM "Save &As...",                 ID_FILE_SAVE_AS
+        MENUITEM "&Revert",                     ID_FILE_REVERT
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit",                       ID_FILE_EXIT
+    END
+    POPUP "&Edit"
+    BEGIN
+        MENUITEM "&Copy",                       ID_EDIT_COPY
+        MENUITEM "&Paste",                      ID_EDIT_PASTE
+    END
+    POPUP "&Image"
+    BEGIN
+        POPUP "&Colour Depth"
+        BEGIN
+            MENUITEM "To &8 Bits",                  ID_IMAGE_CONVERT_TO8BITS
+            MENUITEM "To 1&6 Bits",                 ID_IMAGE_CONVERT_TO16BITS
+            MENUITEM "To 2&4 Bits",                 ID_IMAGE_CONVERT_TO24BITS
+            MENUITEM "To 3&2 Bits",                 ID_IMAGE_CONVERT_TO32BITS
+        END
+        MENUITEM "Colour Quantize...",          ID_IMAGE_COLOURQUANTIZE
+        MENUITEM "Dither...",                   ID_IMAGE_DITHER
+        MENUITEM "Rescale...",                  ID_IMAGE_RESCALE
+        MENUITEM "Rotate...",                   ID_IMAGE_ROTATE
+        POPUP "Flip"
+        BEGIN
+            MENUITEM "Horizontal",                  ID_FLIP_HORIZONTAL
+            MENUITEM "Vertical",                    ID_FLIP_VERTICAL
+        END
+        MENUITEM "Invert",                      ID_IMAGE_INVERT
+        MENUITEM "Brightness...",               ID_IMAGE_BRIGHTNESS
+        MENUITEM "Contrast...",                 ID_IMAGE_CONTRAST
+        MENUITEM "Gamma...",                    ID_IMAGE_GAMMA
+        MENUITEM "Recolour...",                 ID_IMAGE_RECOLOUR
+    END
+    POPUP "&View"
+    BEGIN
+        MENUITEM "&Toolbar",                    ID_VIEW_TOOLBAR
+        MENUITEM "&Status bar",                 ID_VIEW_STATUS_BAR
+        POPUP "Zoom"
+        BEGIN
+            MENUITEM "&Increase",                   ID_VIEW_ZOOM_INCREASE
+            MENUITEM "&Original",                   ID_VIEW_ZOOM_ORIGINAL
+            MENUITEM "&Decrease",                   ID_VIEW_ZOOM_DECREASE
+            MENUITEM "To fit",                      ID_VIEW_ZOOM_TOFIT
+        END
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&About...",                   ID_HELP_ABOUT
+    END
+END
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""winres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDR_ACCELERATOR ACCELERATORS
+BEGIN
+    "C",            ID_EDIT_COPY,           VIRTKEY, CONTROL, NOINVERT
+    "V",            ID_EDIT_PASTE,          VIRTKEY, CONTROL, NOINVERT
+    VK_ESCAPE,      ID_FILE_EXIT,           VIRTKEY, NOINVERT
+    "O",            ID_FILE_OPEN,           VIRTKEY, CONTROL, NOINVERT
+    "S",            ID_FILE_SAVE,           VIRTKEY, CONTROL, NOINVERT
+    VK_SUBTRACT,    ID_VIEW_ZOOM_DECREASE,  VIRTKEY, NOINVERT
+    VK_ADD,         ID_VIEW_ZOOM_INCREASE,  VIRTKEY, NOINVERT
+    VK_MULTIPLY,    ID_VIEW_ZOOM_ORIGINAL,  VIRTKEY, NOINVERT
+    "R",            ID_FILE_REVERT,         VIRTKEY, CONTROL, NOINVERT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Toolbar
+//
+
+IDR_TOOLBAR TOOLBAR 16, 15
+BEGIN
+    BUTTON      ID_FILE_OPEN
+    BUTTON      ID_FILE_SAVE
+    SEPARATOR
+    BUTTON      ID_EDIT_COPY
+    BUTTON      ID_EDIT_PASTE
+    SEPARATOR
+    BUTTON      ID_VIEW_ZOOM_INCREASE
+    BUTTON      ID_VIEW_ZOOM_DECREASE
+    SEPARATOR
+    BUTTON      ID_HELP_ABOUT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDR_TOOLBAR             BITMAP                  "res\\toolbar.bmp"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_IMGVIEWER           ICON                    "res\\imgviewer.ico"
+
+IDI_IMAGE               ICON                    "res\\image.ico"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,5,5,0
+ PRODUCTVERSION 1,5,5,0
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "0c0904b0"
+        BEGIN
+            VALUE "CompanyName", "Radsoft"
+            VALUE "FileDescription", "ImgViewer"
+            VALUE "FileVersion", "1, 5, 5, 0"
+            VALUE "InternalName", "ImgViewer"
+            VALUE "LegalCopyright", "Copyright © 2000"
+            VALUE "OriginalFilename", "ImgViewer.exe"
+            VALUE "ProductName", "Radsoft ImgViewer"
+            VALUE "ProductVersion", "1, 5, 5, 0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0xc09, 1200
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ABOUT DIALOGEX 0, 0, 186, 175
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "About "
+FONT 8, "MS Sans Serif", 0, 0, 0x0
+BEGIN
+    PUSHBUTTON      "Close",IDCANCEL,129,7,50,14
+    ICON            "",IDC_ABOUT_APPICON,7,7,20,20
+    LTEXT           "Static",IDC_ABOUT_PRODUCT,35,7,85,8
+    LTEXT           "Version:",IDC_STATIC,35,20,28,8
+    LTEXT           "Static",IDC_ABOUT_VERSION,67,20,57,8
+    PUSHBUTTON      "http://radsoft.boxathome.net/",IDC_ABOUT_WEBSITE,7,138,172,14,BS_FLAT
+    PUSHBUTTON      "mailto:adamgates84+software@gmail.com",IDC_ABOUT_MAIL,7,155,172,14,BS_FLAT
+    GROUPBOX        "Free Image",IDC_STATIC,7,34,172,97
+    LTEXT           "Version:",IDC_STATIC,13,47,26,8
+    LTEXT           "Static",IDC_ABOUT_FREEIMAGE_VERSION,45,47,124,8
+    LTEXT           "Static",IDC_ABOUT_FREEIMAGE_LICENSE,13,63,157,63
+END
+
+IDD_QUANTIZE DIALOGEX 0, 0, 186, 50
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Colour Quantize"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,74,29,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,129,29,50,14
+    COMBOBOX        IDC_METHOD,39,7,140,36,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Method:",IDC_STATIC,7,8,28,8
+END
+
+IDD_DITHER DIALOGEX 0, 0, 186, 50
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Dither"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,74,29,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,129,29,50,14
+    COMBOBOX        IDC_METHOD,39,7,140,36,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Method:",IDC_STATIC,7,8,28,8
+END
+
+IDD_RESCALE DIALOGEX 0, 0, 186, 97
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Rescale"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,74,76,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,129,76,50,14
+    COMBOBOX        IDC_METHOD,39,53,140,36,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Method:",IDC_STATIC,7,54,28,8
+    EDITTEXT        IDC_WIDTH,71,7,40,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
+    EDITTEXT        IDC_HEIGHT,71,29,40,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Width:",IDC_STATIC,45,8,22,8
+    LTEXT           "Height:",IDC_STATIC,45,31,24,8
+END
+
+IDD_ROTATE DIALOGEX 0, 0, 186, 50
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Rotate"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,74,29,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,129,29,50,14
+    EDITTEXT        IDC_ANGLE,71,7,40,14,ES_RIGHT | ES_AUTOHSCROLL
+    LTEXT           "Angle:",-1,45,8,22,8
+END
+
+IDD_BRIGHTNESS DIALOGEX 0, 0, 186, 50
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Brightness"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,74,29,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,129,29,50,14
+    EDITTEXT        IDC_PERCENTAGE,71,7,40,14,ES_RIGHT | ES_AUTOHSCROLL
+    LTEXT           "Percentage:",-1,29,8,40,8
+END
+
+IDD_GAMMA DIALOGEX 0, 0, 186, 50
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Gamma"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,74,29,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,129,29,50,14
+    EDITTEXT        IDC_GAMMA,71,7,40,14,ES_RIGHT | ES_AUTOHSCROLL
+    LTEXT           "Gamma:",-1,44,8,27,8
+END
+
+IDD_CONTRAST DIALOGEX 0, 0, 186, 50
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Contrast"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,74,29,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,129,29,50,14
+    EDITTEXT        IDC_PERCENTAGE,71,7,40,14,ES_RIGHT | ES_AUTOHSCROLL
+    LTEXT           "Percentage:",-1,29,8,40,8
+END
+
+IDD_RECOLOUR DIALOGEX 0, 0, 186, 97
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Recolour"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    LTEXT           "Source Colour:",IDC_STATIC,7,10,48,8
+    CONTROL         "Button1",IDC_SOURCE_COLOUR,"Button",BS_OWNERDRAW | WS_TABSTOP,80,7,50,14
+    LTEXT           "Destination Colour:",IDC_STATIC,7,31,62,8
+    CONTROL         "Button2",IDC_DEST_COLOUR,"Button",BS_OWNERDRAW | WS_TABSTOP,80,29,50,14
+    LTEXT           "Tolerance:",IDC_STATIC,7,52,35,8
+    EDITTEXT        IDC_TOLERANCE,80,50,40,14,ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK",IDOK,74,76,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,129,76,50,14
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_ABOUT, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 179
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 168
+    END
+
+    IDD_QUANTIZE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 179
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 43
+    END
+
+    IDD_DITHER, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 179
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 43
+    END
+
+    IDD_RESCALE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 179
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 90
+    END
+
+    IDD_ROTATE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 179
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 43
+    END
+
+    IDD_BRIGHTNESS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 179
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 43
+    END
+
+    IDD_GAMMA, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 179
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 43
+    END
+
+    IDD_CONTRAST, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 179
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 43
+    END
+
+    IDD_RECOLOUR, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 179
+        VERTGUIDE, 80
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 90
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_ABOUT AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE
+BEGIN
+    ID_FILE_OPEN            "Open an image"
+    ID_FILE_CLOSE           "Close the image"
+    ID_FILE_SAVE            "Save the image"
+    ID_FILE_SAVE_AS         "Save the image as a different type"
+    ID_FILE_REVERT          "Revert to the last save"
+END
+
+STRINGTABLE
+BEGIN
+    ID_FILE_EXIT            "Exit ImgViewer"
+    ID_HELP_ABOUT           "About ImgViewer"
+    ID_VIEW_ZOOM_INCREASE   "Double the view size"
+    ID_VIEW_ZOOM_ORIGINAL   "Revert back to 100% view size"
+    ID_VIEW_ZOOM_DECREASE   "Half the view size"
+END
+
+STRINGTABLE
+BEGIN
+    ID_VIEW_TOOLBAR         "Toggle toolbar"
+    ID_VIEW_STATUS_BAR      "Toggle status bar"
+END
+
+STRINGTABLE
+BEGIN
+    ID_EDIT_COPY            "Copy to clipboard"
+    ID_EDIT_PASTE           "Paste from clipboard"
+END
+
+#endif    // English (Australia) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

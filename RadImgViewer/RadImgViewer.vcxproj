@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{20BE1AF1-7179-4FF7-A5B4-940481018AEC}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>RadImgViewer</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="..\RadWin32\Default.props" />
+  </ImportGroup>
+  <ItemDefinitionGroup Condition="'$(Platform)'=='Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)Include;$(SolutionDir)FreeImage\Dist\x32;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <AdditionalDependencies>Comctl32.lib;Comdlg32.lib;Version.lib;FreeImage.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)FreeImage\Dist\x32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+    <PostBuildEvent>
+      <Command>copy /y "$(SolutionDir)FreeImage\Dist\x32\FreeImage.dll" $(OutDir)</Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>Copy FreeImage</Message>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Platform)'=='x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(SolutionDir)Include;$(SolutionDir)FreeImage\Dist\x64;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <AdditionalDependencies>Comctl32.lib;Comdlg32.lib;Version.lib;FreeImage.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)FreeImage\Dist\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+    <PostBuildEvent>
+      <Command>copy /y "$(SolutionDir)FreeImage\Dist\x64\FreeImage.dll" $(OutDir)</Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>Copy FreeImage</Message>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RadView\RadView.vcxproj">
+      <Project>{d4bbd4a2-de12-4569-9671-e339504e7121}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\RadWin32\RadWin32.vcxproj">
+      <Project>{5a74a52f-2903-436a-b223-1212b11deb75}</Project>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Color.cpp" />
+    <ClCompile Include="Dialogs.cpp" />
+    <ClCompile Include="FreeImageHelper.cpp" />
+    <ClCompile Include="ImgViewer.cpp" />
+    <ClCompile Include="ImgViewerDoc.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ImgViewer.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\image.ico" />
+    <Image Include="res\imgviewer.ico" />
+    <Image Include="res\toolbar.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Color.h" />
+    <ClInclude Include="Dialogs.h" />
+    <ClInclude Include="FreeImageHelper.h" />
+    <ClInclude Include="ImgViewerDoc.h" />
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+</Project>

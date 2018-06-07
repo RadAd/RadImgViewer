@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tga;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Chain">
+      <UniqueIdentifier>{360099a1-a73f-478a-b994-bd38738687ae}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Rad\View\Chain\MenuToolBarChain.cpp">
+      <Filter>Chain</Filter>
+    </ClCompile>
+    <ClCompile Include="Rad\View\FrameWindow.cpp" />
+    <ClCompile Include="Rad\View\Chain\StatusWndChain.cpp">
+      <Filter>Chain</Filter>
+    </ClCompile>
+    <ClCompile Include="Rad\View\Chain\ToolBarWndChain.cpp">
+      <Filter>Chain</Filter>
+    </ClCompile>
+    <ClCompile Include="Rad\View\Chain\CommandStatusChain.cpp">
+      <Filter>Chain</Filter>
+    </ClCompile>
+    <ClCompile Include="Rad\View\Chain\ScrollKeyChain.cpp">
+      <Filter>Chain</Filter>
+    </ClCompile>
+    <ClCompile Include="Rad\View\WindowBitmapView.cpp" />
+    <ClCompile Include="Rad\View\WindowScrollView.cpp" />
+    <ClCompile Include="Rad\View\WindowZoomView.cpp" />
+    <ClCompile Include="Rad\View\WindowView.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Rad\View\Chain\CommandStatusChain.h">
+      <Filter>Chain</Filter>
+    </ClInclude>
+    <ClInclude Include="Rad\View\Chain\MenuToolBarChain.h">
+      <Filter>Chain</Filter>
+    </ClInclude>
+    <ClInclude Include="Rad\View\Chain\StatusWndChain.h">
+      <Filter>Chain</Filter>
+    </ClInclude>
+    <ClInclude Include="Rad\View\Chain\ToolBarWndChain.h">
+      <Filter>Chain</Filter>
+    </ClInclude>
+    <ClInclude Include="Rad\View\FrameWindow.h" />
+    <ClInclude Include="Rad\View\Chain\ScrollKeyChain.h">
+      <Filter>Chain</Filter>
+    </ClInclude>
+    <ClInclude Include="Rad\View\WindowScrollView.h" />
+    <ClInclude Include="Rad\View\WindowZoomView.h" />
+    <ClInclude Include="Rad\View\WindowBitmapView.h" />
+    <ClInclude Include="Rad\View\WindowView.h" />
+  </ItemGroup>
+</Project>

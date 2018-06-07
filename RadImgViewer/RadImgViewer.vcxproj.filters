@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="ImgViewer.cpp" />
+    <ClCompile Include="ImgViewerDoc.cpp" />
+    <ClCompile Include="Color.cpp" />
+    <ClCompile Include="Dialogs.cpp" />
+    <ClCompile Include="FreeImageHelper.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ImgViewer.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="res">
+      <UniqueIdentifier>{655a9ac3-115b-4f89-87f5-afd20c9e018b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\image.ico">
+      <Filter>res</Filter>
+    </Image>
+    <Image Include="res\imgviewer.ico">
+      <Filter>res</Filter>
+    </Image>
+    <Image Include="res\toolbar.bmp">
+      <Filter>res</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ImgViewerDoc.h" />
+    <ClInclude Include="Color.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="Dialogs.h" />
+    <ClInclude Include="FreeImageHelper.h" />
+  </ItemGroup>
+</Project>

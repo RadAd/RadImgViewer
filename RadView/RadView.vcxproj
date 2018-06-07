@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ProjectReference Include="..\RadWin32\RadWin32.vcxproj">
+      <Project>{5a74a52f-2903-436a-b223-1212b11deb75}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Rad\View\Chain\CommandStatusChain.cpp" />
+    <ClCompile Include="Rad\View\Chain\MenuToolBarChain.cpp" />
+    <ClCompile Include="Rad\View\Chain\ScrollKeyChain.cpp" />
+    <ClCompile Include="Rad\View\Chain\StatusWndChain.cpp" />
+    <ClCompile Include="Rad\View\Chain\ToolBarWndChain.cpp" />
+    <ClCompile Include="Rad\View\FrameWindow.cpp" />
+    <ClCompile Include="Rad\View\WindowView.cpp" />
+    <ClCompile Include="Rad\View\WindowBitmapView.cpp" />
+    <ClCompile Include="Rad\View\WindowScrollView.cpp" />
+    <ClCompile Include="Rad\View\WindowZoomView.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Rad\View\Chain\CommandStatusChain.h" />
+    <ClInclude Include="Rad\View\Chain\MenuToolBarChain.h" />
+    <ClInclude Include="Rad\View\Chain\ScrollKeyChain.h" />
+    <ClInclude Include="Rad\View\Chain\StatusWndChain.h" />
+    <ClInclude Include="Rad\View\Chain\ToolBarWndChain.h" />
+    <ClInclude Include="Rad\View\FrameWindow.h" />
+    <ClInclude Include="Rad\View\WindowView.h" />
+    <ClInclude Include="Rad\View\WindowBitmapView.h" />
+    <ClInclude Include="Rad\View\WindowScrollView.h" />
+    <ClInclude Include="Rad\View\WindowZoomView.h" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{d4bbd4a2-de12-4569-9671-e339504e7121}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>RadView</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="..\RadWin32\Default.props" />
+  </ImportGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <PreprocessorDefinitions>_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <PostBuildEvent>
+      <Command>xcopy /S /Y /I /R "$(ProjectDir)Rad\*.h" "$(SolutionDir)Include\Rad"
+attrib +R "$(SolutionDir)Include\Rad\*" /S
+</Command>
+      <Message>Copy include files</Message>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+</Project>
