@@ -1,16 +1,13 @@
 #include "ImgViewerDoc.H"
-#include <FreeImage.H>
-// AG #include "Rad/Win/GlobalMemory.H"
-// AG #include "Rad/Win/Clipboard.H"
-#include "Rad/Win/WinHandle.H"
-#include "Color.H"
-#include <Math.h>
 
-#ifdef UNICODE
-#define FreeImage_GetFIFFromFilename FreeImage_GetFIFFromFilenameU
-#define FreeImage_Load FreeImage_LoadU
-#define FreeImage_Save FreeImage_SaveU
-#endif
+// AG #include <Rad/Win/GlobalMemory.H>
+// AG #include <Rad/Win/Clipboard.H>
+#include <Rad/Win/WinHandle.H>
+
+#include "FreeImageHelper.h"
+#include "Color.H"
+
+#include <Math.h>
 
 namespace
 {
@@ -127,7 +124,7 @@ static void MyFIOM(FREE_IMAGE_FORMAT /*fif*/, const char *msg)
 }
 
 CImgViewerDoc::CImgViewerDoc()
-    : m_Image(NULL), m_Modified(false)
+    : m_Multi(NULL), m_Page(0), m_Image(NULL), m_Modified(false)
 {
     m_FileName[0] = '\0';
 
@@ -163,7 +160,20 @@ bool CImgViewerDoc::Load(LPCTSTR FileName)
     m_Modified = false;
 
     FREE_IMAGE_FORMAT format = FreeImage_GetFIFFromFilename(FileName);
-    Attach(FreeImage_Load(format, FileName));
+    switch (format)
+    {
+    case FIF_TIFF:
+    case FIF_ICO:
+    case FIF_GIF:
+        {
+            FIMULTIBITMAP* fMulti = FreeImage_OpenMultiBitmap(format, FileName, FALSE, TRUE);
+            Attach(fMulti, 0, FreeImage_LockPage(fMulti, 0));
+        }
+        break;
+    default:
+        Attach(NULL, 0, FreeImage_Load(format, FileName));
+        break;
+    }
 
     if (IsValid())
         _tcscpy_s(m_FileName, MAX_PATH, FileName);
@@ -188,6 +198,7 @@ bool CImgViewerDoc::Save()
 
 bool CImgViewerDoc::SaveAs(LPCTSTR FileName, FREE_IMAGE_FORMAT Format)
 {
+    // TODO How to support Multi Page
     int flags = 0;
     if (Format == FIF_ICO && GetBPP() == 32)
         flags |= ICO_MAKEALPHA;
@@ -214,6 +225,49 @@ void CImgViewerDoc::Close()
     Broadcast(CImgViewerDocListener::IVDL_NAME_CHANGED | CImgViewerDocListener::IVDL_MODIFIED_CHANGED
         | CImgViewerDocListener::IVDL_SIZE_CHANGED | CImgViewerDocListener::IVDL_PALETTE_CHANGED
         | CImgViewerDocListener::IVDL_BITS_CHANGED);
+}
+
+int CImgViewerDoc::GetPage()
+{
+    return m_Page;
+}
+
+int CImgViewerDoc::GetNumPages()
+{
+    if (m_Multi)
+        return FreeImage_GetPageCount(m_Multi);
+    else
+        return 1;
+}
+
+void CImgViewerDoc::NextPage()
+{
+    int NewPage = m_Page + 1;
+    if (NewPage < GetNumPages())
+    {
+        FreeImage_UnlockPage(m_Multi, m_Image, FALSE);  // TODO Support modifying pages
+        m_Image = FreeImage_LockPage(m_Multi, NewPage);
+        m_Page = NewPage;
+
+        Broadcast(CImgViewerDocListener::IVDL_SIZE_CHANGED
+            | CImgViewerDocListener::IVDL_PALETTE_CHANGED
+            | CImgViewerDocListener::IVDL_BITS_CHANGED);
+    }
+}
+
+void CImgViewerDoc::PrevPage()
+{
+    if (m_Page > 0)
+    {
+        int NewPage = m_Page - 1;
+        FreeImage_UnlockPage(m_Multi, m_Image, FALSE);  // TODO Support modifying pages
+        m_Image = FreeImage_LockPage(m_Multi, NewPage);
+        m_Page = NewPage;
+
+        Broadcast(CImgViewerDocListener::IVDL_SIZE_CHANGED
+            | CImgViewerDocListener::IVDL_PALETTE_CHANGED
+            | CImgViewerDocListener::IVDL_BITS_CHANGED);
+    }
 }
 
 int CImgViewerDoc::GetWidth() const
@@ -270,13 +324,14 @@ bool CImgViewerDoc::CanPasteFromClipboard(rad::WindowProxy &Wnd) const
 
 void CImgViewerDoc::PasteFromClipboard(rad::WindowProxy &Wnd)
 {
+    // TODO Paste into Multi?? Insert or Replace
     CClipboard	Clip(Wnd);
     CGlobalLock<char>	Lock(Clip.GetData(CF_DIB));
     if (Lock.GetHandle() != NULL)
     {
         char	*Ptr = Lock.GetPointer();
         BITMAPINFOHEADER *bi = (BITMAPINFOHEADER *) Ptr;
-        Attach(FreeImage_Allocate(bi->biWidth, bi->biHeight, bi->biBitCount));
+        Attach(NULL, 0, FreeImage_Allocate(bi->biWidth, bi->biHeight, bi->biBitCount));
         Ptr += sizeof(BITMAPINFOHEADER);
         int PaletteSize = FreeImage_GetColorsUsed(m_Image) * sizeof(RGBQUAD);
         if (PaletteSize == 0)
@@ -300,9 +355,7 @@ void CImgViewerDoc::ConvertTo8Bits()
     FIBITMAP *NewImage = FreeImage_ConvertTo8Bits(m_Image);
     if (NewImage)
     {
-        FreeImage_Unload(m_Image);
-        m_Image = NewImage;
-        m_Modified = true;
+        Modified(NewImage);
         Broadcast(CImgViewerDocListener::IVDL_MODIFIED_CHANGED | CImgViewerDocListener::IVDL_SIZE_CHANGED |
             CImgViewerDocListener::IVDL_PALETTE_CHANGED | CImgViewerDocListener::IVDL_BITS_CHANGED);
     }
@@ -315,9 +368,7 @@ void CImgViewerDoc::ConvertTo16Bits()
     FIBITMAP *NewImage = FreeImage_ConvertTo16Bits565(m_Image);
     if (NewImage)
     {
-        FreeImage_Unload(m_Image);
-        m_Image = NewImage;
-        m_Modified = true;
+        Modified(NewImage);
         Broadcast(CImgViewerDocListener::IVDL_MODIFIED_CHANGED | CImgViewerDocListener::IVDL_SIZE_CHANGED |
             CImgViewerDocListener::IVDL_PALETTE_CHANGED | CImgViewerDocListener::IVDL_BITS_CHANGED);
     }
@@ -330,9 +381,7 @@ void CImgViewerDoc::ConvertTo24Bits()
     FIBITMAP *NewImage = FreeImage_ConvertTo24Bits(m_Image);
     if (NewImage)
     {
-        FreeImage_Unload(m_Image);
-        m_Image = NewImage;
-        m_Modified = true;
+        Modified(NewImage);
         Broadcast(CImgViewerDocListener::IVDL_MODIFIED_CHANGED | CImgViewerDocListener::IVDL_SIZE_CHANGED |
             CImgViewerDocListener::IVDL_PALETTE_CHANGED | CImgViewerDocListener::IVDL_BITS_CHANGED);
     }
@@ -345,9 +394,7 @@ void CImgViewerDoc::ConvertTo32Bits()
     FIBITMAP *NewImage = FreeImage_ConvertTo32Bits(m_Image);
     if (NewImage)
     {
-        FreeImage_Unload(m_Image);
-        m_Image = NewImage;
-        m_Modified = true;
+        Modified(NewImage);
         Broadcast(CImgViewerDocListener::IVDL_MODIFIED_CHANGED | CImgViewerDocListener::IVDL_SIZE_CHANGED |
             CImgViewerDocListener::IVDL_PALETTE_CHANGED | CImgViewerDocListener::IVDL_BITS_CHANGED);
     }
@@ -360,9 +407,7 @@ void CImgViewerDoc::ColorQuantize(int option)
     FIBITMAP *NewImage = FreeImage_ColorQuantize(m_Image, (FREE_IMAGE_QUANTIZE) option);
     if (NewImage)
     {
-        FreeImage_Unload(m_Image);
-        m_Image = NewImage;
-        m_Modified = true;
+        Modified(NewImage);
         Broadcast(CImgViewerDocListener::IVDL_MODIFIED_CHANGED | CImgViewerDocListener::IVDL_SIZE_CHANGED |
             CImgViewerDocListener::IVDL_PALETTE_CHANGED | CImgViewerDocListener::IVDL_BITS_CHANGED);
     }
@@ -375,9 +420,7 @@ void CImgViewerDoc::Dither(int option)
     FIBITMAP *NewImage = FreeImage_Dither(m_Image, (FREE_IMAGE_DITHER) option);
     if (NewImage)
     {
-        FreeImage_Unload(m_Image);
-        m_Image = NewImage;
-        m_Modified = true;
+        Modified(NewImage);
         Broadcast(CImgViewerDocListener::IVDL_MODIFIED_CHANGED |
             CImgViewerDocListener::IVDL_PALETTE_CHANGED | CImgViewerDocListener::IVDL_BITS_CHANGED);
     }
@@ -390,9 +433,7 @@ void CImgViewerDoc::Rescale(int width, int height, int option)
     FIBITMAP *NewImage = FreeImage_Rescale(m_Image, width, height, (FREE_IMAGE_FILTER) option);
     if (NewImage)
     {
-        FreeImage_Unload(m_Image);
-        m_Image = NewImage;
-        m_Modified = true;
+        Modified(NewImage);
         Broadcast(CImgViewerDocListener::IVDL_MODIFIED_CHANGED | CImgViewerDocListener::IVDL_SIZE_CHANGED |
             CImgViewerDocListener::IVDL_BITS_CHANGED);
     }
@@ -405,9 +446,7 @@ void CImgViewerDoc::Rotate(double angle)
     FIBITMAP *NewImage = FreeImage_RotateClassic(m_Image, angle);
     if (NewImage)
     {
-        FreeImage_Unload(m_Image);
-        m_Image = NewImage;
-        m_Modified = true;
+        Modified(NewImage);
         Broadcast(CImgViewerDocListener::IVDL_MODIFIED_CHANGED | CImgViewerDocListener::IVDL_SIZE_CHANGED |
             CImgViewerDocListener::IVDL_BITS_CHANGED);
     }
@@ -592,21 +631,52 @@ HBITMAP CImgViewerDoc::CreateBitmap(rad::DevContextRef DC) const
         return NULL;
 }
 
-void CImgViewerDoc::Attach(FIBITMAP *Image)
+void CImgViewerDoc::Attach(FIMULTIBITMAP* Multi, int Page, FIBITMAP *Image)
 {
     Detach();
+    m_Multi = Multi;
+    m_Page = Page;
     m_Image = Image;
 }
 
 void CImgViewerDoc::Detach()
 {
-    if (m_Image)
+    if (m_Multi)
     {
-        FreeImage_Unload(m_Image);
-        m_Image = NULL;
+        if (m_Image)
+        {
+            FreeImage_UnlockPage(m_Multi, m_Image, FALSE);  // TODO Support modifying pages
+            m_Image = NULL;
+        }
+        FreeImage_CloseMultiBitmap(m_Multi);
+        m_Multi = NULL;
+        m_Page = 0;
+    }
+    else
+    {
+        if (m_Image)
+        {
+            FreeImage_Unload(m_Image);
+            m_Image = NULL;
+        }
     }
     m_Modified = false;
     m_FileName[0] = '\0';
+}
+
+void CImgViewerDoc::Modified(FIBITMAP *NewImage)
+{
+    if (m_Multi)
+    {
+        // TODO Handle multi image
+        FreeImage_Unload(NewImage);
+    }
+    else
+    {
+        FreeImage_Unload(m_Image);
+        m_Image = NewImage;
+        m_Modified = true;
+    }
 }
 
 void CImgViewerDoc::Broadcast(int Msg)

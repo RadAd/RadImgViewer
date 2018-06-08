@@ -2,3 +2,6 @@ freeimage.zip
 .~Bin
 Include
 */.~Int
+.vs
+*.VC.db
+*.aps

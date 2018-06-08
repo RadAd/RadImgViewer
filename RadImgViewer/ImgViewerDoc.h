@@ -12,6 +12,7 @@ using namespace std;
 //using namespace stl;
 //using namespace stlport;
 
+struct FIMULTIBITMAP;
 struct FIBITMAP;
 enum FREE_IMAGE_FORMAT;
 
@@ -52,6 +53,11 @@ public:
     bool SaveAs(LPCTSTR FileName, FREE_IMAGE_FORMAT Format);
 
     void Close();
+
+    int GetPage();
+    int GetNumPages();
+    void NextPage();
+    void PrevPage();
 
     int GetWidth() const;
     int GetHeight() const;
@@ -100,14 +106,17 @@ public:
     HBITMAP CreateBitmap(rad::DevContextRef DC) const;
 
 protected:
-    void Attach(FIBITMAP *Image);
+    void Attach(FIMULTIBITMAP* Multi, int Page, FIBITMAP *Image);
     void Detach();
+    void Modified(FIBITMAP *Image);
 
     void Broadcast(int Msg);
     void BroadcastError(const std::string& Msg);
 
 private:
-    FIBITMAP	*m_Image;
+    FIMULTIBITMAP*  m_Multi;
+    int             m_Page;
+    FIBITMAP*       m_Image;
     bool		m_Modified;
     TCHAR		m_FileName[MAX_PATH];
 

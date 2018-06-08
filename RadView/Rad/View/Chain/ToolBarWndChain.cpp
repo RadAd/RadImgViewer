@@ -44,6 +44,14 @@ namespace rad
             HINSTANCE hInstance = (HINSTANCE) Window->GetWindowLongPtr(GWLP_HINSTANCE);
             LPNMTBGETINFOTIP	TBGetInfoTip = (LPNMTBGETINFOTIP) Header;
             LoadString(hInstance, TBGetInfoTip->iItem, TBGetInfoTip->pszText, TBGetInfoTip->cchTextMax);
+
+#if 0 // TODO Add shortcut text to popup
+            TCHAR	String[1024];
+            if (GetAccelText(TBGetInfoTip->iItem, String, ARRAYSIZE(String)))
+            {
+
+            }
+#endif
         }
         return DoDefault(Window);
     }

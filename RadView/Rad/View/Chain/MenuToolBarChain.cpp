@@ -306,10 +306,9 @@ namespace rad
                 StringSize.cx += AccelStringSize.cx + ODM_STRING_SPACE;
             }
 
-            MeasureItem->itemWidth = IconSize.cy + StringSize.cx;
-            MeasureItem->itemHeight = std::max((int) IconSize.cx, (int) StringSize.cy);
-            if (MenuItemInfo.hSubMenu != NULL)
-                MeasureItem->itemWidth += ODM_SUBMENU_SPACE;
+            MeasureItem->itemWidth = IconSize.cx + StringSize.cx;
+            MeasureItem->itemHeight = std::max((int) IconSize.cy, (int) StringSize.cy);
+            MeasureItem->itemWidth += ODM_SUBMENU_SPACE; // Always leave space for the submenu
             return TRUE;
         }
         else
@@ -351,6 +350,8 @@ namespace rad
                         case VK_ADD:        _tcscat_s(Text, size, TEXT("+"));   break;
                         case VK_SUBTRACT:   _tcscat_s(Text, size, TEXT("-"));   break;
                         case VK_MULTIPLY:   _tcscat_s(Text, size, TEXT("*"));   break;
+                        case VK_NEXT:       _tcscat_s(Text, size, TEXT("PgDown"));   break;
+                        case VK_PRIOR:      _tcscat_s(Text, size, TEXT("PgUp"));   break;
                         default:            _tcscat_s(Text, size, TEXT("Virt?"));   break;
                         }
                     }

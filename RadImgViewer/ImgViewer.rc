@@ -76,6 +76,11 @@ BEGIN
             MENUITEM "&Decrease",                   ID_VIEW_ZOOM_DECREASE
             MENUITEM "To fit",                      ID_VIEW_ZOOM_TOFIT
         END
+        POPUP "Page"
+        BEGIN
+            MENUITEM "Next",                        ID_PAGE_NEXT
+            MENUITEM "Prev",                        ID_PAGE_PREV
+        END
     END
     POPUP "&Help"
     BEGIN
@@ -121,11 +126,13 @@ BEGIN
     "V",            ID_EDIT_PASTE,          VIRTKEY, CONTROL, NOINVERT
     VK_ESCAPE,      ID_FILE_EXIT,           VIRTKEY, NOINVERT
     "O",            ID_FILE_OPEN,           VIRTKEY, CONTROL, NOINVERT
+    "R",            ID_FILE_REVERT,         VIRTKEY, CONTROL, NOINVERT
     "S",            ID_FILE_SAVE,           VIRTKEY, CONTROL, NOINVERT
     VK_SUBTRACT,    ID_VIEW_ZOOM_DECREASE,  VIRTKEY, NOINVERT
     VK_ADD,         ID_VIEW_ZOOM_INCREASE,  VIRTKEY, NOINVERT
     VK_MULTIPLY,    ID_VIEW_ZOOM_ORIGINAL,  VIRTKEY, NOINVERT
-    "R",            ID_FILE_REVERT,         VIRTKEY, CONTROL, NOINVERT
+    VK_PRIOR,       ID_PAGE_NEXT,           VIRTKEY, NOINVERT
+    VK_NEXT,        ID_PAGE_PREV,           VIRTKEY, NOINVERT
 END
 
 
@@ -144,6 +151,9 @@ BEGIN
     SEPARATOR
     BUTTON      ID_VIEW_ZOOM_INCREASE
     BUTTON      ID_VIEW_ZOOM_DECREASE
+    SEPARATOR
+    BUTTON      ID_PAGE_PREV
+    BUTTON      ID_PAGE_NEXT
     SEPARATOR
     BUTTON      ID_HELP_ABOUT
 END
@@ -175,8 +185,8 @@ IDI_IMAGE               ICON                    "res\\image.ico"
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 1,5,5,0
- PRODUCTVERSION 1,5,5,0
+ FILEVERSION 1,6,0,0
+ PRODUCTVERSION 1,6,0,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -193,12 +203,12 @@ BEGIN
         BEGIN
             VALUE "CompanyName", "Radsoft"
             VALUE "FileDescription", "ImgViewer"
-            VALUE "FileVersion", "1, 5, 5, 0"
+            VALUE "FileVersion", "1.6.0.0"
             VALUE "InternalName", "ImgViewer"
             VALUE "LegalCopyright", "Copyright © 2000"
             VALUE "OriginalFilename", "ImgViewer.exe"
             VALUE "ProductName", "Radsoft ImgViewer"
-            VALUE "ProductVersion", "1, 5, 5, 0"
+            VALUE "ProductVersion", "1.6.0.0"
         END
     END
     BLOCK "VarFileInfo"
@@ -456,6 +466,12 @@ STRINGTABLE
 BEGIN
     ID_EDIT_COPY            "Copy to clipboard"
     ID_EDIT_PASTE           "Paste from clipboard"
+END
+
+STRINGTABLE
+BEGIN
+    ID_PAGE_NEXT            "Next page"
+    ID_PAGE_PREV            "Previous page"
 END
 
 #endif    // English (Australia) resources

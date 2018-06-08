@@ -58,6 +58,10 @@
 #define ID_IMAGE_COLOURQUANTIZE         40022
 #define ID_ZOOM_TOFIT                   40023
 #define ID_VIEW_ZOOM_TOFIT              40024
+#define ID_VIEW_PAGE                    40025
+#define ID_PAGE_NEXT                    40026
+#define ID_PAGE_PREV                    40027
+#define ID_BUTTON40032                  40032
 #define ID_FILE_NEW                     0xE100
 #define ID_FILE_OPEN                    0xE101
 #define ID_FILE_CLOSE                   0xE102
@@ -76,7 +80,7 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        123
-#define _APS_NEXT_COMMAND_VALUE         40025
+#define _APS_NEXT_COMMAND_VALUE         40033
 #define _APS_NEXT_CONTROL_VALUE         1016
 #define _APS_NEXT_SYMED_VALUE           101
 #endif

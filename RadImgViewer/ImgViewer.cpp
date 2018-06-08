@@ -166,16 +166,16 @@ protected:
         // TODO Move into frame window or maybe status chain
         if (GetStatusWnd().IsAttached())
         {
-            int StatusSize[] = { 100 , 100 };
-            int m_StatusParts[ARRAYSIZE(StatusSize) + 1];
-            m_StatusParts[ARRAYSIZE(m_StatusParts) - 1] = cx - 5;
+            int StatusSize[] = { 100, 100 ,100 };
+            int StatusParts[ARRAYSIZE(StatusSize) + 1];
+            StatusParts[ARRAYSIZE(StatusParts) - 1] = cx - 5;
             if (GetStatusWnd().GetWindowLongPtr(GWL_STYLE) & SBARS_SIZEGRIP)
-                m_StatusParts[ARRAYSIZE(m_StatusParts) - 1] -= GetSystemMetrics(SM_CXVSCROLL);
-            for (int i = 1; i >= 0; --i)
+                StatusParts[ARRAYSIZE(StatusParts) - 1] -= GetSystemMetrics(SM_CXVSCROLL);
+            for (int i = ARRAYSIZE(StatusParts) - 2; i >= 0; --i)
             {
-                m_StatusParts[i] = m_StatusParts[i + 1] - StatusSize[i];
+                StatusParts[i] = StatusParts[i + 1] - StatusSize[i];
             }
-            GetStatusWnd().SetParts(ARRAYSIZE(m_StatusParts), m_StatusParts);
+            GetStatusWnd().SetParts(ARRAYSIZE(StatusParts), StatusParts);
         }
 
         return 0;
@@ -409,6 +409,16 @@ protected:
             SizeView();
             break;
 
+        case ID_PAGE_NEXT:
+            m_Doc.NextPage();
+            SendMessage(WM_COMMAND, ID_VIEW_ZOOM_TOFIT);
+            break;
+
+        case ID_PAGE_PREV:
+            m_Doc.PrevPage();
+            SendMessage(WM_COMMAND, ID_VIEW_ZOOM_TOFIT);
+            break;
+
         case ID_HELP_ABOUT:
             {
                 ImgViewerAboutDlg ad(g_hInstance);
@@ -496,23 +506,33 @@ public: // CImgViewerDocListener
                     TCHAR Text[1024];
 
                     _stprintf_s(Text, 1024, _T("%d x %d x %d"), m_Doc.GetWidth(), m_Doc.GetHeight(), m_Doc.GetBPP());
-                    GetStatusWnd().SetText(Text, 0, 2);
+                    GetStatusWnd().SetText(Text, 0, 3);
 
                     int ColorType = m_Doc.GetColorType();
                     if (ColorType == FIC_RGB)
                         _tcscpy_s(Text, 1024, _T("RGB"));
                     else if (ColorType == FIC_PALETTE)
                         _tcscpy_s(Text, 1024, _T("PALETTE"));
+                    else if (ColorType == FIC_RGBALPHA)
+                        _tcscpy_s(Text, 1024, _T("RGBA"));
+                    else if (ColorType == FIC_CMYK)
+                        _tcscpy_s(Text, 1024, _T("CMYK"));
                     else
                         _tcscpy_s(Text, 1024, _T(""));
+                    GetStatusWnd().SetText(Text, 0, 2);
+
+                    _stprintf_s(Text, 1024, _T("%d/%d"), m_Doc.GetPage() + 1, m_Doc.GetNumPages());
                     GetStatusWnd().SetText(Text, 0, 1);
                 }
                 else
                 {
                     GetStatusWnd().SetText(_T(""), 0, 1);
                     GetStatusWnd().SetText(_T(""), 0, 2);
+                    GetStatusWnd().SetText(_T(""), 0, 3);
                 }
             }
+
+            UpdateToolBarStatus(); // When page changes
         }
     }
 
@@ -583,6 +603,14 @@ public: // CCommandStatus
         case ID_VIEW_ZOOM_DECREASE:
             if (!m_Doc.IsValid())
                 Status.Grayed = true;
+            break;
+
+        case ID_PAGE_NEXT:
+            Status.Grayed = !m_Doc.IsValid() || (m_Doc.GetPage() + 1) >= m_Doc.GetNumPages();
+            break;
+
+        case ID_PAGE_PREV:
+            Status.Grayed = !m_Doc.IsValid() || m_Doc.GetPage() <= 0;
             break;
 
         case ID_VIEW_TOOLBAR: // TODO Move GetCommandStatus into FrameWindow???
