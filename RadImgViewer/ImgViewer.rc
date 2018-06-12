@@ -141,7 +141,7 @@ END
 // Toolbar
 //
 
-IDR_TOOLBAR TOOLBAR 16, 15
+IDR_TOOLBAR TOOLBAR 16, 16
 BEGIN
     BUTTON      ID_FILE_OPEN
     BUTTON      ID_FILE_SAVE
@@ -164,7 +164,7 @@ END
 // Bitmap
 //
 
-IDR_TOOLBAR             BITMAP                  "res\\toolbar.bmp"
+IDR_TOOLBAR             BITMAP                  "res\\toolbar256.bmp"
 
 
 /////////////////////////////////////////////////////////////////////////////

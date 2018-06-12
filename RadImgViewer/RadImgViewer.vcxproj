@@ -87,6 +87,7 @@
     <Image Include="res\image.ico" />
     <Image Include="res\imgviewer.ico" />
     <Image Include="res\toolbar.bmp" />
+    <Image Include="res\toolbar256.bmp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Color.h" />

@@ -25,6 +25,9 @@
     <Image Include="res\toolbar.bmp">
       <Filter>res</Filter>
     </Image>
+    <Image Include="res\toolbar256.bmp">
+      <Filter>res</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ImgViewerDoc.h" />
