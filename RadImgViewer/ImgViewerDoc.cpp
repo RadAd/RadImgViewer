@@ -631,15 +631,15 @@ HBITMAP CImgViewerDoc::CreateBitmap(rad::DevContextRef DC) const
         return NULL;
 }
 
-void CImgViewerDoc::Attach(FIMULTIBITMAP* Multi, int Page, FIBITMAP *Image)
+void CImgViewerDoc::Attach(FIMULTIBITMAP* Multi, int Page, FIBITMAP *Image, bool fClearFileName)
 {
-    Detach();
+    Detach(fClearFileName);
     m_Multi = Multi;
     m_Page = Page;
     m_Image = Image;
 }
 
-void CImgViewerDoc::Detach()
+void CImgViewerDoc::Detach(bool fClearFileName)
 {
     if (m_Multi)
     {
@@ -661,15 +661,28 @@ void CImgViewerDoc::Detach()
         }
     }
     m_Modified = false;
-    m_FileName[0] = '\0';
+    if (fClearFileName)
+        m_FileName[0] = '\0';
 }
 
 void CImgViewerDoc::Modified(FIBITMAP *NewImage)
 {
+#if 0
     if (m_Multi)
     {
-        // TODO Handle multi image
-        FreeImage_Unload(NewImage);
+#if 1
+        MessageBoxA(NULL, "Operation not supported with multi page images.", "ImgViewer", MB_OK | MB_ICONINFORMATION);
+#else
+        FreeImage_UnlockPage(m_Multi, m_Image, FALSE);  // TODO Support modifying pages
+        if ((m_Page + 1) >= GetNumPages())
+            FreeImage_AppendPage(m_Multi, NewImage);
+        else
+            FreeImage_InsertPage(m_Multi, m_Page + 1, NewImage);
+        //FreeImage_Unload(NewImage);
+        FreeImage_DeletePage(m_Multi, m_Page);
+        m_Image = FreeImage_LockPage(m_Multi, m_Page);  // TODO Support modifying pages
+        m_Modified = true;
+#endif
     }
     else
     {
@@ -677,6 +690,10 @@ void CImgViewerDoc::Modified(FIBITMAP *NewImage)
         m_Image = NewImage;
         m_Modified = true;
     }
+#else
+    Attach(NULL, 0, NewImage, false);
+    m_Modified = true;
+#endif
 }
 
 void CImgViewerDoc::Broadcast(int Msg)

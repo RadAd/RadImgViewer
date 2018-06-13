@@ -106,8 +106,8 @@ public:
     HBITMAP CreateBitmap(rad::DevContextRef DC) const;
 
 protected:
-    void Attach(FIMULTIBITMAP* Multi, int Page, FIBITMAP *Image);
-    void Detach();
+    void Attach(FIMULTIBITMAP* Multi, int Page, FIBITMAP *Image, bool fClearFileName = true);
+    void Detach(bool fClearFileName = true);
     void Modified(FIBITMAP *Image);
 
     void Broadcast(int Msg);

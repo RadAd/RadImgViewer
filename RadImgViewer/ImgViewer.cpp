@@ -49,9 +49,9 @@ public: // CImgViewerDocListener
         }
     }
 
-    void ImgViewerDocError(CImgViewerDoc* /*pDoc*/, const std::string& /*Msg*/) override
+    void ImgViewerDocError(CImgViewerDoc* /*pDoc*/, const std::string& Msg) override
     {
-        //MessageBoxA(GetHWND(), Msg.c_str(), APP_NAME_A, MB_OK | MB_ICONERROR);
+        MessageBoxA(GetHWND(), Msg.c_str(), APP_NAME_A, MB_OK | MB_ICONERROR);
     }
 
 protected:
@@ -79,8 +79,8 @@ protected:
                 RECT rect;
                 GetClientRect(&rect);
                 SIZE zoom;
-                zoom.cx = GetWidth(rect) * 100 / docSize.cx;
-                zoom.cy = GetHeight(rect) * 100 / docSize.cy;
+                zoom.cx = docSize.cx > 0 ? GetWidth(rect) * 100 / docSize.cx : 0;
+                zoom.cy = docSize.cy > 0 ? GetHeight(rect) * 100 / docSize.cy : 0;
                 //SetZoom(std::min(zoom.cx, zoom.cy));
                 SetZoom(zoom.cx < zoom.cy ? zoom.cx : zoom.cy);
             }
