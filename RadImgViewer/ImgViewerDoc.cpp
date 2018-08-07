@@ -52,8 +52,8 @@ namespace
         CClipboard(const rad::WindowProxy& Wnd)
             //: Wnd(Wnd)
         {
-            if (!OpenClipboard(Wnd.GetHWND()))
-                rad::ThrowWinError(_T(__FUNCTION__));
+            while (!OpenClipboard(Wnd.GetHWND()))
+                Sleep(100);
         }
 
         ~CClipboard()
