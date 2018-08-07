@@ -130,6 +130,26 @@ public:
         SetView(View);
     }
 
+    void Load(LPCTSTR FileName)
+    {
+        if (FileName)
+        {
+            HCURSOR OldCursor = SetCursor(LoadCursor(NULL, IDC_WAIT));
+            if (GetStatusWnd().IsAttached())
+                GetStatusWnd().SetText(_T("Loading..."), SBT_NOBORDERS);
+            m_Doc.Load(FileName);
+            SendMessage(WM_COMMAND, ID_VIEW_ZOOM_TOFIT);
+            SetCursor(OldCursor);
+        }
+        else
+        {
+            m_Doc.Close();
+        }
+
+        if (GetStatusWnd().IsAttached())
+            GetStatusWnd().SetText(_T(""), SBT_NOBORDERS);
+    }
+
 protected:
     virtual void CreateChildren(LPCREATESTRUCT CreateStruct) override
     {
@@ -441,26 +461,6 @@ protected:
         return Base::OnMessage(Message, wParam, lParam);
     }
 
-    void Load(LPCTSTR FileName)
-    {
-        if (FileName)
-        {
-            HCURSOR OldCursor = SetCursor(LoadCursor(NULL, IDC_WAIT));
-            if (GetStatusWnd().IsAttached())
-                GetStatusWnd().SetText(_T("Loading..."), SBT_NOBORDERS);
-            m_Doc.Load(FileName);
-            SendMessage(WM_COMMAND, ID_VIEW_ZOOM_TOFIT);
-            SetCursor(OldCursor);
-        }
-        else
-        {
-            m_Doc.Close();
-        }
-
-        if (GetStatusWnd().IsAttached())
-            GetStatusWnd().SetText(_T(""), SBT_NOBORDERS);
-    }
-
 public: // CImgViewerDocListener
     void ImgViewerDocMsg(CImgViewerDoc* pDoc, int Msg) override
     {
@@ -638,21 +638,76 @@ private:
     CImgViewerDoc m_Doc;
 };
 
-int CALLBACK WinMain(
+int CALLBACK wWinMain(
     _In_ HINSTANCE hInstance,
     _In_ HINSTANCE /*hPrevInstance*/,
-    _In_ LPSTR     /*lpCmdLine*/,
+    _In_ LPTSTR     lpCmdLine,
     _In_ int       nCmdShow
 )
 {
     InitCommonControls();
 
+    TCHAR filename[MAX_PATH] = _T("");
+
+    LPTSTR     lpCmdLineNext = lpCmdLine;
+    while (*lpCmdLineNext != _T('\0'))
+    {
+        switch (*lpCmdLineNext)
+        {
+        case _T(' '):
+        case _T('\t'):
+        case _T('\r'):
+        case _T('\b'):
+            ++lpCmdLineNext;
+            break;
+
+        case _T('\"'):
+            {
+                // TODO Better parsing if it contains _T('\"') in the string
+                LPTSTR     lpBegin = lpCmdLineNext + 1;
+                LPTSTR     lpEnd = _tcschr(lpBegin, _T('\"'));
+                if (lpEnd != nullptr)
+                {
+                    _tcsncpy_s(filename, lpBegin, lpEnd - lpBegin);
+                    filename[lpEnd - lpBegin] = _T('\0');
+                    lpCmdLineNext = lpEnd + 1;
+                }
+                else
+                {
+                    _tcscpy_s(filename, lpBegin);
+                    lpCmdLineNext += _tcslen(lpCmdLineNext);
+                }
+            }
+            break;
+
+        default:
+            {
+                LPTSTR     lpBegin = lpCmdLineNext;
+                LPTSTR     lpEnd = _tcschr(lpBegin, _T(' '));
+                if (lpEnd != nullptr)
+                {
+                    _tcsncpy_s(filename, lpBegin, lpEnd - lpBegin);
+                    filename[lpEnd - lpBegin] = _T('\0');
+                    lpCmdLineNext = lpEnd + 1;
+                }
+                else
+                {
+                    _tcscpy_s(filename, lpBegin);
+                    lpCmdLineNext += _tcslen(lpCmdLineNext);
+                }
+            }
+            break;
+        }
+    }
+
     g_hInstance = hInstance;
     g_hAccel = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDR_ACCELERATOR));
 
-    Window* w = new ImgViewerFrame;
+    ImgViewerFrame* w = new ImgViewerFrame;
     w->CreateWnd(hInstance, APP_NAME);
     w->ShowWindow(nCmdShow);
+    if (filename[0] != _T('\0'))
+        w->Load(filename);
 
     return (int) DoMessageLoop(w->GetHWND(), g_hAccel);
 }

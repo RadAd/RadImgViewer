@@ -5,3 +5,4 @@ Include
 .vs
 *.VC.db
 *.aps
+*.vcxproj.user
