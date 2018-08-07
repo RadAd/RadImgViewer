@@ -52,7 +52,7 @@ const wchar_t *FreeImage_GetFormatFromFIFU(FREE_IMAGE_FORMAT fif)
     return s_fmt;
 }
 
-FIMULTIBITMAP* FreeImage_OpenMultiBitmapU(FREE_IMAGE_FORMAT fif, const wchar_t *filename, BOOL create_new, BOOL read_only, BOOL keep_cache_in_memory, int flags)
+FIMULTIBITMAP* FreeImage_OpenMultiBitmapU(FREE_IMAGE_FORMAT fif, const wchar_t *filename, BOOL /*create_new*/, BOOL /*read_only*/, BOOL /*keep_cache_in_memory*/, int flags)
 {
     FreeImageIO io;
     SetDefaultIO(&io);

@@ -37,7 +37,7 @@ namespace rad
         }
 
     protected:
-        LRESULT OnInitMenuPopup(Window* Window, HMENU hMenu, UINT /*Pos*/, BOOL /*SystemMenu*/);
+        LRESULT OnInitMenuPopup(Window* Window, HMENU hMenu, UINT Pos, BOOL SystemMenu);
 
     protected:
         virtual LRESULT OnMessage(Window* Window, UINT Message, WPARAM wParam, LPARAM lParam) override;

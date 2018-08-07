@@ -50,7 +50,6 @@
 #define ID_VIEW_ZOOM_INCREASE           40009
 #define ID_VIEW_ZOOM_ORIGINAL           40010
 #define ID_VIEW_ZOOM_DECREASE           40011
-#define ID_BUTTON40012                  40012
 #define ID_IMAGE_CONVERT_TO8BITS        40018
 #define ID_IMAGE_CONVERT_TO16BITS       40019
 #define ID_IMAGE_CONVERT_TO24BITS       40020
@@ -61,7 +60,6 @@
 #define ID_VIEW_PAGE                    40025
 #define ID_PAGE_NEXT                    40026
 #define ID_PAGE_PREV                    40027
-#define ID_BUTTON40032                  40032
 #define ID_FILE_NEW                     0xE100
 #define ID_FILE_OPEN                    0xE101
 #define ID_FILE_CLOSE                   0xE102

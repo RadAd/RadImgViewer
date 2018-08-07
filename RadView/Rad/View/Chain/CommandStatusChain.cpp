@@ -11,49 +11,52 @@ namespace rad
         return &csl;
     }
 
-    LRESULT CommandStatusChain::OnInitMenuPopup(Window* Window, HMENU hMenu, UINT /*Pos*/, BOOL /*SystemMenu*/)
+    LRESULT CommandStatusChain::OnInitMenuPopup(Window* Window, HMENU hMenu, UINT /*Pos*/, BOOL SystemMenu)
     {
-        CommandStatus* StatusI = dynamic_cast<CommandStatus*>(Window);
-
-        Menu	Menu(hMenu);
-
-        int Count = Menu.GetItemCount();
-        for (int I = 0; I < Count; ++I)
+        if (!SystemMenu)
         {
-            UINT	CommandID = Menu.GetItemID(I);
-            switch (CommandID)
+            CommandStatus* StatusI = dynamic_cast<CommandStatus*>(Window);
+
+            Menu	Menu(hMenu);
+
+            int Count = Menu.GetItemCount();
+            for (int I = 0; I < Count; ++I)
             {
-            case -1: // a popup menu
-                break;
-
-            case 0: // a seperator
-                break;
-
-            default:
+                UINT	CommandID = Menu.GetItemID(I);
+                switch (CommandID)
                 {
-                    assert(StatusI);
-                    CommandStatus::State Status = StatusI->GetCommandStatus(CommandID);
+                case -1: // a popup menu
+                    break;
 
-                    if (Status.Known)
+                case 0: // a seperator
+                    break;
+
+                default:
                     {
-                        MENUITEMINFO	mii;
-                        mii.cbSize = sizeof(MENUITEMINFO);
-                        mii.fMask = MIIM_STATE;
-                        Menu.GetItemInfo(CommandID, &mii, false);
+                        assert(StatusI);
+                        CommandStatus::State Status = StatusI->GetCommandStatus(CommandID);
 
-                        UINT	State = mii.fState;
-
-                        Set(State, Status.Grayed, MFS_GRAYED);
-                        Set(State, Status.Checked, MFS_CHECKED);
-
-                        if (State != mii.fState)
+                        if (Status.Known)
                         {
-                            mii.fState = State;
-                            Menu.SetItemInfo(CommandID, &mii, false);
+                            MENUITEMINFO	mii;
+                            mii.cbSize = sizeof(MENUITEMINFO);
+                            mii.fMask = MIIM_STATE;
+                            Menu.GetItemInfo(CommandID, &mii, false);
+
+                            UINT	State = mii.fState;
+
+                            Set(State, Status.Grayed, MFS_GRAYED);
+                            Set(State, Status.Checked, MFS_CHECKED);
+
+                            if (State != mii.fState)
+                            {
+                                mii.fState = State;
+                                Menu.SetItemInfo(CommandID, &mii, false);
+                            }
                         }
                     }
+                    break;
                 }
-                break;
             }
         }
 

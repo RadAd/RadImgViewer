@@ -601,6 +601,7 @@ public: // CCommandStatus
         case ID_VIEW_ZOOM_INCREASE:
         case ID_VIEW_ZOOM_ORIGINAL:
         case ID_VIEW_ZOOM_DECREASE:
+        case ID_VIEW_ZOOM_TOFIT:
             if (!m_Doc.IsValid())
                 Status.Grayed = true;
             break;
@@ -626,7 +627,7 @@ public: // CCommandStatus
             break;
 
         default:
-            //Status.Known = false;
+            Status.Known = false;
             break;
         }
 
