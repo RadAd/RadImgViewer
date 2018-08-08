@@ -649,6 +649,12 @@ int CALLBACK wWinMain(
 
     TCHAR filename[MAX_PATH] = _T("");
 
+#if 1
+    for (int arg = 1; arg < __argc; ++arg)
+    {
+        _tcscpy_s(filename, __targv[arg]);
+    }
+#else
     LPTSTR     lpCmdLineNext = lpCmdLine;
     while (*lpCmdLineNext != _T('\0'))
     {
@@ -699,6 +705,7 @@ int CALLBACK wWinMain(
             break;
         }
     }
+#endif
 
     g_hInstance = hInstance;
     g_hAccel = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDR_ACCELERATOR));
