@@ -175,6 +175,7 @@ protected:
         SetAccelerator(g_hAccel);
         DragAcceptFiles();
         AddClipboardFormatListener(GetHWND());
+        SetTimer(0, 1000);
 
         return res;
     }
@@ -452,6 +453,23 @@ protected:
         return 0;
     }
 
+    LRESULT OnTimer(UINT ID, TIMERPROC* TimerProc) override
+    {
+        if (m_Doc.IsValid() && !m_Doc.IsModified() && (m_Doc.GetFileName()[0] != '\0'))
+        {
+            m_Doc.CheckFileTime();
+#if 0 // TODO Auto revert. Need to check its not still be written to.
+            if (m_Doc.IsModified())
+            {
+                TCHAR FileName[MAX_PATH];
+                _tcscpy_s(FileName, MAX_PATH, m_Doc.GetFileName());
+                Load(FileName);
+            }
+#endif
+        }
+        return Base::OnTimer(ID, TimerProc);
+    }
+
     LRESULT OnMessage(UINT Message, WPARAM wParam, LPARAM lParam) override
     {
         if (Message == WM_CLIPBOARDUPDATE)
@@ -550,6 +568,7 @@ public: // CCommandStatus
         switch (CommandID)
         {
         case ID_FILE_OPEN:
+        case ID_FILE_EXIT:
         case ID_HELP_ABOUT:
             Status.Known = true;
             break;

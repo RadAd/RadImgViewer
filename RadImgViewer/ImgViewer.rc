@@ -29,10 +29,10 @@ BEGIN
     POPUP "&File"
     BEGIN
         MENUITEM "&Open...",                    ID_FILE_OPEN
+        MENUITEM "&Revert",                     ID_FILE_REVERT
         MENUITEM "&Close",                      ID_FILE_CLOSE
         MENUITEM "&Save",                       ID_FILE_SAVE
         MENUITEM "Save &As...",                 ID_FILE_SAVE_AS
-        MENUITEM "&Revert",                     ID_FILE_REVERT
         MENUITEM SEPARATOR
         MENUITEM "E&xit",                       ID_FILE_EXIT
     END
@@ -128,11 +128,12 @@ BEGIN
     "O",            ID_FILE_OPEN,           VIRTKEY, CONTROL, NOINVERT
     "R",            ID_FILE_REVERT,         VIRTKEY, CONTROL, NOINVERT
     "S",            ID_FILE_SAVE,           VIRTKEY, CONTROL, NOINVERT
+    VK_PRIOR,       ID_PAGE_NEXT,           VIRTKEY, NOINVERT
+    VK_NEXT,        ID_PAGE_PREV,           VIRTKEY, NOINVERT
     VK_SUBTRACT,    ID_VIEW_ZOOM_DECREASE,  VIRTKEY, NOINVERT
     VK_ADD,         ID_VIEW_ZOOM_INCREASE,  VIRTKEY, NOINVERT
     VK_MULTIPLY,    ID_VIEW_ZOOM_ORIGINAL,  VIRTKEY, NOINVERT
-    VK_PRIOR,       ID_PAGE_NEXT,           VIRTKEY, NOINVERT
-    VK_NEXT,        ID_PAGE_PREV,           VIRTKEY, NOINVERT
+    VK_F5,          ID_FILE_REVERT,         VIRTKEY, NOINVERT
 END
 
 

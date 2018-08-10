@@ -85,6 +85,18 @@ namespace
     private:
         //rad::WindowProxy Wnd;
     };
+
+    FILETIME GetModifiedFileTime(LPCTSTR strFileName)
+    {
+        FILETIME ft = {};
+        HANDLE hFile = CreateFile(strFileName, GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+        if (hFile)
+        {
+            GetFileTime(hFile, nullptr, nullptr, &ft);
+            CloseHandle(hFile);
+        }
+        return ft;
+    }
 }
 
 const option Quantize[] =
@@ -127,6 +139,7 @@ CImgViewerDoc::CImgViewerDoc()
     : m_Multi(NULL), m_Page(0), m_Image(NULL), m_Modified(false)
 {
     m_FileName[0] = '\0';
+    m_ModifiedTime = FILETIME {};
 
     FreeImage_SetOutputMessage(MyFIOM);
 }
@@ -176,7 +189,10 @@ bool CImgViewerDoc::Load(LPCTSTR FileName)
     }
 
     if (IsValid())
+    {
         _tcscpy_s(m_FileName, MAX_PATH, FileName);
+        m_ModifiedTime = GetModifiedFileTime(m_FileName);
+    }
 
     Broadcast(CImgViewerDocListener::IVDL_NAME_CHANGED | CImgViewerDocListener::IVDL_MODIFIED_CHANGED
         | CImgViewerDocListener::IVDL_SIZE_CHANGED | CImgViewerDocListener::IVDL_PALETTE_CHANGED
@@ -213,6 +229,7 @@ bool CImgViewerDoc::SaveAs(LPCTSTR FileName, FREE_IMAGE_FORMAT Format)
             _tcscpy_s(m_FileName, MAX_PATH, FileName);
             Msg |= CImgViewerDocListener::IVDL_NAME_CHANGED;
         }
+        m_ModifiedTime = GetModifiedFileTime(m_FileName);
         Broadcast(Msg);
     }
 
@@ -290,6 +307,16 @@ int CImgViewerDoc::GetColorType() const
     return FreeImage_GetColorType(m_Image);
 }
 
+void CImgViewerDoc::CheckFileTime()
+{
+    FILETIME ft = GetModifiedFileTime(m_FileName);
+    if (CompareFileTime(&ft, &m_ModifiedTime) != 0)
+    {
+        m_Modified = true;
+        Broadcast(CImgViewerDocListener::IVDL_MODIFIED_CHANGED);
+    }
+}
+
 void CImgViewerDoc::CopyToClipboard(rad::WindowProxy &Wnd) const
 {
     if (IsValid())
@@ -342,6 +369,7 @@ void CImgViewerDoc::PasteFromClipboard(rad::WindowProxy &Wnd)
         memcpy(FreeImage_GetBits(m_Image), Ptr, FreeImage_GetDIBSize(m_Image) - PaletteSize - sizeof(BITMAPINFOHEADER));
 
         _tcscpy_s(m_FileName, MAX_PATH, _T("Clipboard"));
+        m_ModifiedTime = FILETIME {};
         m_Modified = true;
 
         Broadcast(CImgViewerDocListener::IVDL_NAME_CHANGED | CImgViewerDocListener::IVDL_MODIFIED_CHANGED
@@ -662,7 +690,10 @@ void CImgViewerDoc::Detach(bool fClearFileName)
     }
     m_Modified = false;
     if (fClearFileName)
+    {
         m_FileName[0] = '\0';
+        m_ModifiedTime = FILETIME {};
+    }
 }
 
 void CImgViewerDoc::Modified(FIBITMAP *NewImage)

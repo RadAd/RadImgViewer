@@ -79,6 +79,8 @@ public:
         return m_FileName;
     }
 
+    void CheckFileTime();
+
     void CopyToClipboard(rad::WindowProxy &Wnd) const;
     bool CanPasteFromClipboard(rad::WindowProxy &Wnd) const;
     void PasteFromClipboard(rad::WindowProxy &Wnd);
@@ -119,6 +121,7 @@ private:
     FIBITMAP*       m_Image;
     bool		m_Modified;
     TCHAR		m_FileName[MAX_PATH];
+    FILETIME    m_ModifiedTime;
 
     vector <CImgViewerDocListener *> m_Listeners;
 };
