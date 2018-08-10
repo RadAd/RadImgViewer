@@ -17,7 +17,8 @@ namespace rad
                 TBBUTTON	Button = {};
                 m_ToolBar.GetButton(I, &Button);
 
-                UpdateToolBarStatus(StatusI, Button.idCommand);
+                if (Button.fsStyle != TBSTYLE_SEP)
+                    UpdateToolBarStatus(StatusI, Button.idCommand);
             }
         }
     }

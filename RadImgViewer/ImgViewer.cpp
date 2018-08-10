@@ -549,6 +549,11 @@ public: // CCommandStatus
 
         switch (CommandID)
         {
+        case ID_FILE_OPEN:
+        case ID_HELP_ABOUT:
+            Status.Known = true;
+            break;
+
         case ID_FILE_CLOSE:
             if (!m_Doc.IsValid())
                 Status.Grayed = true;
@@ -627,6 +632,7 @@ public: // CCommandStatus
             break;
 
         default:
+            assert(false);
             Status.Known = false;
             break;
         }
