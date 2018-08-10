@@ -15,7 +15,7 @@
 #include "FreeImageHelper.h"
 #include "resource.h"
 
-#define APP_NAME_A "ImgViewer"
+#define APP_NAME_A "RadImgViewer"
 #define APP_NAME _T(APP_NAME_A)
 
 using namespace rad;
@@ -162,7 +162,7 @@ protected:
 protected:
     LPCTSTR GetWndClassName(HINSTANCE hInstance) override
     {
-        RegClass rc(hInstance, _T("ImgViewer"), DefWndHandlerWindowProc);
+        RegClass rc(hInstance, APP_NAME, DefWndHandlerWindowProc);
         rc.SetIcon(IDI_IMGVIEWER);
         rc.SetBackgroundColorType(COLOR_APPWORKSPACE);
         return MAKEINTATOM(rc.Register());

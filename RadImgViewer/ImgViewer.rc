@@ -202,11 +202,11 @@ BEGIN
         BLOCK "0c0904b0"
         BEGIN
             VALUE "CompanyName", "Radsoft"
-            VALUE "FileDescription", "ImgViewer"
+            VALUE "FileDescription", "RadImgViewer"
             VALUE "FileVersion", "1.7.0.0"
-            VALUE "InternalName", "ImgViewer"
+            VALUE "InternalName", "RadImgViewer"
             VALUE "LegalCopyright", "Copyright © 2000"
-            VALUE "OriginalFilename", "ImgViewer.exe"
+            VALUE "OriginalFilename", "RadImgViewer.exe"
             VALUE "ProductName", "Radsoft ImgViewer"
             VALUE "ProductVersion", "1.7.0.0"
         END
@@ -449,8 +449,8 @@ END
 
 STRINGTABLE
 BEGIN
-    ID_FILE_EXIT            "Exit ImgViewer"
-    ID_HELP_ABOUT           "About ImgViewer"
+    ID_FILE_EXIT            "Exit RadImgViewer"
+    ID_HELP_ABOUT           "About RadImgViewer"
     ID_VIEW_ZOOM_INCREASE   "Double the view size"
     ID_VIEW_ZOOM_ORIGINAL   "Revert back to 100% view size"
     ID_VIEW_ZOOM_DECREASE   "Half the view size"

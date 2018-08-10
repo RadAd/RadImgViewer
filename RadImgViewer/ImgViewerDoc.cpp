@@ -120,7 +120,7 @@ const option Rescale[] =
 
 static void MyFIOM(FREE_IMAGE_FORMAT /*fif*/, const char *msg)
 {
-    MessageBoxA(NULL, msg, "ImgViewer", MB_OK | MB_ICONINFORMATION);
+    MessageBoxA(NULL, msg, "RadImgViewer", MB_OK | MB_ICONINFORMATION);
 }
 
 CImgViewerDoc::CImgViewerDoc()
@@ -671,7 +671,7 @@ void CImgViewerDoc::Modified(FIBITMAP *NewImage)
     if (m_Multi)
     {
 #if 1
-        MessageBoxA(NULL, "Operation not supported with multi page images.", "ImgViewer", MB_OK | MB_ICONINFORMATION);
+        MessageBox(NULL, _T("Operation not supported with multi page images."), APP_NAME, MB_OK | MB_ICONINFORMATION);
 #else
         FreeImage_UnlockPage(m_Multi, m_Image, FALSE);  // TODO Support modifying pages
         if ((m_Page + 1) >= GetNumPages())
