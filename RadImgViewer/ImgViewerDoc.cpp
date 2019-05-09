@@ -645,14 +645,91 @@ HPALETTE CImgViewerDoc::CreatePalette() const
 
 HBITMAP CImgViewerDoc::CreateBitmap(rad::DevContextRef DC) const
 {
+    BOOL useFileBkg = FALSE;
+    RGBQUAD *appBkColor = nullptr;
+
     if (IsValid())
     {
+        BOOL            toDelete = TRUE;
+        FIBITMAP*       Image = nullptr;
+
+        switch (FreeImage_GetImageType(m_Image))
+        {
+        case FIT_BITMAP:
+            {
+                BOOL bHasBackground = FreeImage_HasBackgroundColor(m_Image);
+                BOOL bIsTransparent = FreeImage_IsTransparent(m_Image);
+
+                if (!bIsTransparent && (!bHasBackground || !useFileBkg))
+                {
+                    Image = m_Image;
+                    toDelete = FALSE;
+                }
+                else
+                {
+                    Image = FreeImage_Composite(m_Image, useFileBkg, appBkColor, nullptr);
+                    if (Image == nullptr)
+                    {
+                        Image = m_Image;
+                        toDelete = FALSE;
+                    }
+                }
+            }
+            break;
+
+        case FIT_COMPLEX:
+            {
+                FIBITMAP *dib_double = FreeImage_GetComplexChannel(m_Image, FICC_MAG);
+                Image = FreeImage_ConvertToStandardType(dib_double, TRUE);
+                FreeImage_Unload(dib_double);
+            }
+            break;
+
+        case FIT_RGBF:
+        case FIT_RGBAF:
+        case FIT_RGB16:
+            {
+                FREE_IMAGE_TMO _tmo = FITMO_DRAGO03;
+                double _tmo_param_1 = 0;
+                double _tmo_param_2 = 0;
+                double _tmo_param_3 = 1;
+                double _tmo_param_4 = 0;
+
+                if (_tmo = FITMO_REINHARD05)
+                {
+                    Image = FreeImage_TmoReinhard05Ex(m_Image, _tmo_param_1, _tmo_param_2, _tmo_param_3, _tmo_param_4);
+                }
+                else
+                {
+                    Image = FreeImage_ToneMapping(m_Image, _tmo, _tmo_param_1, _tmo_param_2);
+                }
+            }
+            break;
+
+        case FIT_RGBA16:
+            {
+                FIBITMAP *dib32 = FreeImage_ConvertTo32Bits(m_Image);
+                if (dib32 != nullptr)
+                {
+                    Image = FreeImage_Composite(dib32, useFileBkg, appBkColor, nullptr);
+                    FreeImage_Unload(dib32);
+                }
+            }
+            break;
+
+        default:
+            Image = FreeImage_ConvertToStandardType(m_Image, TRUE);
+            break;
+        }
+
         HBITMAP Bitmap = CreateDIBitmap(DC.GetHandle(),
-            FreeImage_GetInfoHeader(m_Image),
+            FreeImage_GetInfoHeader(Image),
             CBM_INIT,
-            FreeImage_GetBits(m_Image),
-            FreeImage_GetInfo(m_Image),
+            FreeImage_GetBits(Image),
+            FreeImage_GetInfo(Image),
             DIB_RGB_COLORS);
+        if (toDelete)
+            FreeImage_Unload(Image);
         return Bitmap;
     }
     else
