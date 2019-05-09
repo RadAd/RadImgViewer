@@ -374,7 +374,7 @@ protected:
 
         case ID_FLIP_VERTICAL:
             {
-                m_Doc.FlipHorizontal();
+                m_Doc.FlipVertical();
             }
             break;
 

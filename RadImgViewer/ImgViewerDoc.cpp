@@ -695,7 +695,7 @@ HBITMAP CImgViewerDoc::CreateBitmap(rad::DevContextRef DC) const
                 double _tmo_param_3 = 1;
                 double _tmo_param_4 = 0;
 
-                if (_tmo = FITMO_REINHARD05)
+                if (_tmo == FITMO_REINHARD05)
                 {
                     Image = FreeImage_TmoReinhard05Ex(m_Image, _tmo_param_1, _tmo_param_2, _tmo_param_3, _tmo_param_4);
                 }
