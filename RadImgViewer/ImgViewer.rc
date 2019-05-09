@@ -81,6 +81,13 @@ BEGIN
             MENUITEM "Next",                        ID_PAGE_NEXT
             MENUITEM "Prev",                        ID_PAGE_PREV
         END
+        POPUP "Background"
+        BEGIN
+            MENUITEM "Chequered",                   ID_BACKGROUND_CHEQUERED
+            MENUITEM "Black",                       ID_BACKGROUND_BLACK
+            MENUITEM "White",                       ID_BACKGROUND_WHITE
+            MENUITEM "Magenta",                     ID_BACKGROUND_MAGENTA
+        END
     END
     POPUP "&Help"
     BEGIN

@@ -105,7 +105,8 @@ public:
     void Recolour(const COLORREF& source, const COLORREF& dest, double Tolerance);
 
     HPALETTE CreatePalette() const;
-    HBITMAP CreateBitmap(rad::DevContextRef DC) const;
+    enum BgE { BG_CHEQUERED, BG_BLACK, BG_WHITE, BG_MAGENTA};
+    HBITMAP CreateBitmap(rad::DevContextRef DC, BgE bg) const;
 
 protected:
     void Attach(FIMULTIBITMAP* Multi, int Page, FIBITMAP *Image, bool fClearFileName = true);

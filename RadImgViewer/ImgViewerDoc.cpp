@@ -643,10 +643,11 @@ HPALETTE CImgViewerDoc::CreatePalette() const
         return NULL;
 }
 
-HBITMAP CImgViewerDoc::CreateBitmap(rad::DevContextRef DC) const
+HBITMAP CImgViewerDoc::CreateBitmap(rad::DevContextRef DC, BgE bg) const
 {
+    RGBQUAD bgs[] = { {0, 0, 0, 255 }, { 255, 255, 255, 255 }, { 255, 0, 255, 255 } };
     BOOL useFileBkg = FALSE;
-    RGBQUAD *appBkColor = nullptr;
+    RGBQUAD *appBkColor = bg == BG_CHEQUERED ? nullptr : &bgs[bg - 1];
 
     if (IsValid())
     {

@@ -28,11 +28,12 @@ namespace
     const TCHAR SEP = '\0';
 }
 
-class ImgViewerView : public WindowBitmapView, public CImgViewerDocListener
+class ImgViewerView : public WindowBitmapView, public CImgViewerDocListener, public CommandStatus
 {
 public: // CImgViewerDocListener
     void ImgViewerDocMsg(CImgViewerDoc* pDoc, int Msg) override
     {
+        m_pDoc = pDoc;
         if (Msg & IVDL_PALETTE_CHANGED)
         {
             SetPalette(pDoc->CreatePalette());
@@ -40,7 +41,7 @@ public: // CImgViewerDocListener
         if (Msg & IVDL_BITS_CHANGED)
         {
             rad::WindowDC	DC(*this);
-            SetBitmap(pDoc->CreateBitmap(DC));
+            SetBitmap(pDoc->CreateBitmap(DC, m_bg));
         }
         if (Msg & IVDL_SIZE_CHANGED)
         {
@@ -86,6 +87,42 @@ protected:
             }
             break;
 
+        case ID_BACKGROUND_CHEQUERED:
+            m_bg = CImgViewerDoc::BG_CHEQUERED;
+            if (m_pDoc != nullptr)
+            {
+                rad::WindowDC	DC(*this);
+                SetBitmap(m_pDoc->CreateBitmap(DC, m_bg));
+            }
+            break;
+
+        case ID_BACKGROUND_BLACK:
+            m_bg = CImgViewerDoc::BG_BLACK;
+            if (m_pDoc != nullptr)
+            {
+                rad::WindowDC	DC(*this);
+                SetBitmap(m_pDoc->CreateBitmap(DC, m_bg));
+            }
+            break;
+
+        case ID_BACKGROUND_WHITE:
+            m_bg = CImgViewerDoc::BG_WHITE;
+            if (m_pDoc != nullptr)
+            {
+                rad::WindowDC	DC(*this);
+                SetBitmap(m_pDoc->CreateBitmap(DC, m_bg));
+            }
+            break;
+
+        case ID_BACKGROUND_MAGENTA:
+            m_bg = CImgViewerDoc::BG_MAGENTA;
+            if (m_pDoc != nullptr)
+            {
+                rad::WindowDC	DC(*this);
+                SetBitmap(m_pDoc->CreateBitmap(DC, m_bg));
+            }
+            break;
+
         default:
             return WindowBitmapView::OnCommand(NotifyCode, ID, hWnd);
         }
@@ -106,6 +143,52 @@ protected:
         else
             return WindowBitmapView::OnMouseWheel(Flags, Distance, Point);
     }
+
+    CommandStatus::State GetCommandStatus(UINT CommandID) override
+    {
+        CommandStatus::State Status = {};
+        Status.Known = true;
+
+        switch (CommandID)
+        {
+
+        case ID_VIEW_ZOOM_INCREASE:
+        case ID_VIEW_ZOOM_ORIGINAL:
+        case ID_VIEW_ZOOM_DECREASE:
+        case ID_VIEW_ZOOM_TOFIT:
+            if (!IsValid())
+                Status.Grayed = true;
+            break;
+
+        case ID_BACKGROUND_CHEQUERED:
+            Status.Checked = m_bg == CImgViewerDoc::BG_CHEQUERED;
+            break;
+
+        case ID_BACKGROUND_BLACK:
+            Status.Checked = m_bg == CImgViewerDoc::BG_BLACK;
+            break;
+
+        case ID_BACKGROUND_WHITE:
+            Status.Checked = m_bg == CImgViewerDoc::BG_WHITE;
+            break;
+
+        case ID_BACKGROUND_MAGENTA:
+            Status.Checked = m_bg == CImgViewerDoc::BG_MAGENTA;
+            break;
+
+        default:
+            {
+                assert(false);
+                Status.Known = false;
+            }
+            break;
+        }
+
+        return Status;
+    }
+
+    CImgViewerDoc* m_pDoc = nullptr;
+    CImgViewerDoc::BgE m_bg = CImgViewerDoc::BG_CHEQUERED;
 };
 
 class ImgViewerFrame : public FrameWindow, public CommandStatus, public CImgViewerDocListener
@@ -128,6 +211,7 @@ public:
         ImgViewerView* View = new ImgViewerView;
         m_Doc.AddListener(View);
         SetView(View);
+        m_StatusChain = View;
     }
 
     void Load(LPCTSTR FileName)
@@ -622,14 +706,6 @@ public: // CCommandStatus
                 Status.Grayed = true;
             break;
 
-        case ID_VIEW_ZOOM_INCREASE:
-        case ID_VIEW_ZOOM_ORIGINAL:
-        case ID_VIEW_ZOOM_DECREASE:
-        case ID_VIEW_ZOOM_TOFIT:
-            if (!m_Doc.IsValid())
-                Status.Grayed = true;
-            break;
-
         case ID_PAGE_NEXT:
             Status.Grayed = !m_Doc.IsValid() || (m_Doc.GetPage() + 1) >= m_Doc.GetNumPages();
             break;
@@ -651,8 +727,13 @@ public: // CCommandStatus
             break;
 
         default:
-            assert(false);
-            Status.Known = false;
+            if (m_StatusChain != nullptr)
+                Status = m_StatusChain->GetCommandStatus(CommandID);
+            else
+            {
+                assert(false);
+                Status.Known = false;
+            }
             break;
         }
 
@@ -661,6 +742,7 @@ public: // CCommandStatus
 
 private:
     CImgViewerDoc m_Doc;
+    CommandStatus* m_StatusChain = nullptr;
 };
 
 int CALLBACK wWinMain(

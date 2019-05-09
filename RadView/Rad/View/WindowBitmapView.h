@@ -13,6 +13,7 @@ namespace rad
 
         LPCTSTR GetWndClassName(HINSTANCE hInstance) override;
 
+        bool IsValid() const { return m_bitmap.IsValid(); }
         void SetBitmap(HBITMAP Bitmap);
         void SetPalette(HPALETTE Palette);
 

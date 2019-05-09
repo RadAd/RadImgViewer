@@ -60,6 +60,11 @@
 #define ID_VIEW_PAGE                    40025
 #define ID_PAGE_NEXT                    40026
 #define ID_PAGE_PREV                    40027
+#define ID_VIEW_BACKGROUND              40035
+#define ID_BACKGROUND_CHEQUERED         40036
+#define ID_BACKGROUND_BLACK             40037
+#define ID_BACKGROUND_WHITE             40038
+#define ID_BACKGROUND_MAGENTA           40039
 #define ID_FILE_NEW                     0xE100
 #define ID_FILE_OPEN                    0xE101
 #define ID_FILE_CLOSE                   0xE102
@@ -78,7 +83,7 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        123
-#define _APS_NEXT_COMMAND_VALUE         40035
+#define _APS_NEXT_COMMAND_VALUE         40040
 #define _APS_NEXT_CONTROL_VALUE         1016
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
