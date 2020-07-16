@@ -22,11 +22,11 @@
     <ProjectGuid>{20BE1AF1-7179-4FF7-A5B4-940481018AEC}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>RadImgViewer</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <ImportGroup Label="PropertySheets">

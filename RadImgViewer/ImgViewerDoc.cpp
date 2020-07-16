@@ -63,6 +63,12 @@ namespace
                 //rad::ThrowWinError(_T(__FUNCTION__));
         }
 
+        void Empty()
+        {
+            if (!EmptyClipboard())
+                rad::ThrowWinError(_T(__FUNCTION__));
+        }
+
         void SetData(_In_ UINT uFormat, _In_opt_ HANDLE hMem)
         {
             if (SetClipboardData(uFormat, hMem) == NULL)
@@ -339,6 +345,7 @@ void CImgViewerDoc::CopyToClipboard(rad::WindowProxy &Wnd) const
         }
 
         CClipboard	Clip(Wnd);
+        Clip.Empty();
         Clip.SetData(CF_DIB, Mem.Release());
     }
 }

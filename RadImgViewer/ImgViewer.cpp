@@ -566,6 +566,7 @@ protected:
 public: // CImgViewerDocListener
     void ImgViewerDocMsg(CImgViewerDoc* pDoc, int Msg) override
     {
+        pDoc; // UNUSED
         assert(pDoc == &m_Doc);
         if ((Msg & IVDL_NAME_CHANGED) || (Msg & IVDL_MODIFIED_CHANGED))
         {
@@ -757,6 +758,7 @@ int CALLBACK wWinMain(
     TCHAR filename[MAX_PATH] = _T("");
 
 #if 1
+    lpCmdLine; //UNUSED
     for (int arg = 1; arg < __argc; ++arg)
     {
         _tcscpy_s(filename, __targv[arg]);

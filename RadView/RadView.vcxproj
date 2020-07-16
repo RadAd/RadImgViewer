@@ -33,11 +33,11 @@
     <ProjectGuid>{d4bbd4a2-de12-4569-9671-e339504e7121}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>RadView</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <ImportGroup Label="PropertySheets">
