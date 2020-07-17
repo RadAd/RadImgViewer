@@ -478,7 +478,7 @@ void CImgViewerDoc::Rescale(int width, int height, int option)
 
 void CImgViewerDoc::Rotate(double angle)
 {
-    FIBITMAP *NewImage = FreeImage_RotateClassic(m_Image, angle);
+    FIBITMAP *NewImage = FreeImage_Rotate(m_Image, angle);
     if (NewImage)
     {
         Modified(NewImage);

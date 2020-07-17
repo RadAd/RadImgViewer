@@ -3,7 +3,7 @@
   <Import Project="Common.tasks" />
 
   <Target Name="Download" Outputs="freeimage.zip">
-    <DownloadFile Address="http://downloads.sourceforge.net/freeimage/FreeImage3170Win32Win64.zip" FileName="freeimage.zip" />
+    <DownloadFile Address="http://downloads.sourceforge.net/freeimage/FreeImage3180Win32Win64.zip" FileName="freeimage.zip" />
   </Target>
 
   <Target Name="Extract" Inputs="freeimage.zip" Outputs="freeimage">
