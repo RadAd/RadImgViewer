@@ -7,6 +7,7 @@ this mainly because things like ACDSee are too expensive.
 
 ![Windows](https://img.shields.io/badge/platform-Windows-blue.svg)
 [![Releases](https://img.shields.io/github/release/RadAd/RadImgViewer.svg)](https://github.com/RadAd/RadImgViewer/releases/latest)
+[![commits-since](https://img.shields.io/github/commits-since/RadAd/RadImgViewer/latest.svg)](commits/master)
 [![Build](https://img.shields.io/appveyor/ci/RadAd/RadImgViewer.svg)](https://ci.appveyor.com/project/RadAd/RadImgViewer)
 
 ![screenshot](docs/imgviewer.png)
